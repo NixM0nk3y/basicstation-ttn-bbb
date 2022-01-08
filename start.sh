@@ -16,20 +16,8 @@ TAG=$(curl -sX POST \
 -H "Authorization: Bearer $BALENA_API_KEY" \
 --data "{ \"device\": \"$ID\", \"tag_key\": \"$TAG_KEY\", \"value\": \"$TTN_EUI\" }" > /dev/null)
 
-
-
-if [ -z ${MODEL} ] ;
- then
-    echo -e "\033[91mWARNING: MODEL variable not set.\n Set the model of the gateway you are using (SX1301 or SX1302).\033[0m"
-    balena-idle
- else
-    echo "Using MODEL: $MODEL"
-    if [ "$MODEL" = "SX1301" ] || [ "$MODEL" = "RAK2245" ] || [ "$MODEL" = "iC880a" ];then
-        ./start_sx1301.sh
-    fi
-    if [ "$MODEL" = "SX1302" ] || [ "$MODEL" = "RAK2287" ];then
-        ./start_sx1302.sh
-    fi
+if [ ! -e /dev/spidev1.0 ]; then
+  /opt/ttn-gateway/config-pin overlay BB-SPIDEV0
 fi
 
-#balena-idle
+./start_sx1301.sh

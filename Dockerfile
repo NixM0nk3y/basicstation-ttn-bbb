@@ -1,33 +1,28 @@
-FROM ubuntu:18.04
+FROM balenalib/raspberrypi3-debian-node:10.10-buster-build as builder
+# Install build tools and remove layer cache afterwards 
 
-ENV container=docker TERM=xterm LC_ALL=en_US LANGUAGE=en_US LANG=en_US.UTF-8
-ENV DEBIAN_FRONTEND=noninteractive
 
-# locale
-RUN apt-get update -q > /dev/null && \
-        apt-get install --no-install-recommends -yq apt-utils locales language-pack-en dialog \
-        > /dev/null && \
-        locale-gen $LANGUAGE $LANG
+# Switch to working directory for our app
+WORKDIR /usr/src/app
 
-# sudo commmand
-RUN apt-get -yq install sudo > /dev/null
+# Copy all the source code in.
+COPY . .
 
-# non-privileged user
-RUN echo "nonprivuser ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
-RUN useradd --no-log-init --home-dir /home/nonprivuser --create-home --shell /bin/bash -u 1000 \
-        nonprivuser && adduser nonprivuser sudo
-USER nonprivuser
-WORKDIR /home/nonprivuser
+# Compile our source code
+RUN ./deps/build.sh
 
-# system packages
-RUN sudo apt-get install --no-install-recommends -yq \
-        git psmisc build-essential lcov curl netcat-openbsd \
-        python3 python3-pip python3-setuptools python3-wheel \
-        > /dev/null && \
-        sudo apt-get clean -q && \
-        sudo ln -s /usr/bin/python3 /usr/bin/python
+FROM balenalib/raspberrypi3-debian-node:10.10-debian:buster
 
-RUN pip3 install aiohttp websockets
+RUN install_packages jq
 
+WORKDIR /usr/src/app
+
+COPY --from=builder /opt/ttn-gateway /opt/ttn-gateway
+COPY --from=builder /usr/src/app/ ./
+
+COPY start* ./
+
+# Launch our binary on container startup.
+CMD ["bash", "start.sh"]
 
 

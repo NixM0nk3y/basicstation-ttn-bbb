@@ -31,9 +31,7 @@ data:
     - GW_ID: 0
     - GW_KEY: 0
     - TC_KEY: 0
-  defaultDeviceType: raspberrypi3
+  defaultDeviceType: beaglebone-black
   supportedDeviceTypes:
-    - raspberrypi3
-    - raspberrypi3-64
-    - raspberrypi4-64
-    - fincm3
+    - beaglebone-black
+
