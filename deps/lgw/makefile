@@ -50,6 +50,8 @@ ${LGWLIB}: ${PLT}/libloragw/libloragw.a
 
 ${PLT}/libloragw/libloragw.a: ${SRCS} ${HFILES}
 	${MAKE} -C ${PLT}/libloragw libloragw.a CC=${CC} AR=${AR} LD=${LD} TDfull=${TDfull}
+	${MAKE} -C ${PLT}/libloragw test_loragw_hal: CC=${CC} AR=${AR} LD=${LD} TDfull=${TDfull}
+	${MAKE} -C ${PLT}/libloragw test_loragw_spi: CC=${CC} AR=${AR} LD=${LD} TDfull=${TDfull}
 
 ${PLT}/libloragw/inc/config.h: ${PLT}/libloragw/library.cfg
 	${MAKE} -C ${PLT}/libloragw inc/config.h CC=${CC} AR=${AR} LD=${LD} TDfull=${TDfull}
