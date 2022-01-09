@@ -14,7 +14,15 @@ if [ ! -z ${TC_KEY} ]; then
 fi
 
 # Reset gateway
-echo "Resetting gateway concentrator on GPIO pin 48."
-/opt/ttn-gateway/reset
+echo "Resetting gateway concentrator on GPIO $GW_RESET_GPIO"
+echo $GW_RESET_GPIO > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio$GW_RESET_GPIO/direction
+echo 0 > /sys/class/gpio/gpio$GW_RESET_GPIO/value
+sleep 1
+echo 1 > /sys/class/gpio/gpio$GW_RESET_GPIO/value
+sleep 1
+echo 0 > /sys/class/gpio/gpio$GW_RESET_GPIO/value
+sleep 1
+echo $GW_RESET_GPIO > /sys/class/gpio/unexport
 
-RADIODEV=$LORAGW_SPI ../../build-corecell-std/bin/station
+RADIODEV=$LORAGW_SPI SPI_SPEED=$LORAGW_SPISPEED  ../../build-rpi-std/bin/station

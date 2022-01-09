@@ -22,8 +22,5 @@ do
     echo "sleeping"
 done
 
-#if [ ! -e /dev/spidev1.0 ]; then
-#  /opt/ttn-gateway/config-pin overlay BB-SPIDEV0
-#fi
 #
 #./start_sx1301.sh

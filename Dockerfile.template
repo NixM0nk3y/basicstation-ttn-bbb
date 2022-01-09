@@ -9,7 +9,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Compile our source code
-RUN ./deps/build.sh
+RUN make platform=rpi variant=std arch=armv7hf
 
 FROM balenalib/%%BALENA_MACHINE_NAME%%-debian:buster
 
@@ -17,7 +17,6 @@ RUN install_packages jq
 
 WORKDIR /usr/src/app
 
-COPY --from=builder /opt/ttn-gateway /opt/ttn-gateway
 COPY --from=builder /usr/src/app/ ./
 
 COPY start* ./

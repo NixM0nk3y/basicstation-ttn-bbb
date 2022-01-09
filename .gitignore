@@ -3,5 +3,6 @@ deps/.DS_Store
 .DS_Store
 /beaglebone-universal-io
 /build-corecell-std
+/build-rpi-std
 /build-local
 /reset

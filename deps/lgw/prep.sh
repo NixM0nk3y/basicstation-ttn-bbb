@@ -32,7 +32,7 @@ cd $(dirname $0)
 lgwversion="v${lgwversion:-5.0.1}"
 
 if [[ ! -d git-repo ]]; then
-    git clone https://github.com/Lora-net/lora_gateway.git git-repo
+    git clone https://github.com/NixM0nk3y/lora_gateway git-repo
 fi
 
 if [[ -z "${platform}" ]] || [[ -z "${variant}" ]]; then
@@ -43,10 +43,4 @@ fi
 
 if [[ ! -d platform-${platform} ]]; then
     git clone -b ${lgwversion} git-repo platform-${platform}
-
-    cd platform-${platform}
-    if [ -f ../${lgwversion}-${platform}.patch ]; then
-        echo "Applying ${lgwversion}-${platform}.patch ..."
-        git apply ../${lgwversion}-${platform}.patch
-    fi
 fi

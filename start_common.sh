@@ -27,4 +27,6 @@ fi
 echo "Server: $TC_URI"
 
 # declare map of hardware pins to GPIO on Beagle Bone Black
+GW_RESET_GPIO=48
+LORAGW_SPISPEED=${LORAGW_SPISPEED:-"8000000"}
 LORAGW_SPI=${LORAGW_SPI:-"/dev/spidev1.0"}
