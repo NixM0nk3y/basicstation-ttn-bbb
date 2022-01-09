@@ -16,8 +16,14 @@ TAG=$(curl -sX POST \
 -H "Authorization: Bearer $BALENA_API_KEY" \
 --data "{ \"device\": \"$ID\", \"tag_key\": \"$TAG_KEY\", \"value\": \"$TTN_EUI\" }" > /dev/null)
 
-if [ ! -e /dev/spidev1.0 ]; then
-  /opt/ttn-gateway/config-pin overlay BB-SPIDEV0
-fi
+while true
+do
+    sleep 10
+    echo "sleeping"
+done
 
-./start_sx1301.sh
+#if [ ! -e /dev/spidev1.0 ]; then
+#  /opt/ttn-gateway/config-pin overlay BB-SPIDEV0
+#fi
+#
+#./start_sx1301.sh
